@@ -1,12 +1,11 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 
-// import * as S from './Search.styles';
+import * as S from './Home.styles';
 
 export function Home() {
   return (
-    <View style={{flex: 1, backgroundColor: '#262626', justifyContent: 'center', alignItems: 'center'}}>
-      <Text style={{color: 'white'}}>HOME</Text>
-    </View>
+    <S.Container>
+      <S.Text>HOME</S.Text>
+    </S.Container>
   );
 }
