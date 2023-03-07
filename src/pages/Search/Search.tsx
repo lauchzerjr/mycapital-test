@@ -41,7 +41,7 @@ export function Search() {
 
   return (
     <S.Container>
-      <S.Text>Pesquisar ação</S.Text>
+      <S.Title>Pesquisar ação</S.Title>
 
       <Input
         label=""

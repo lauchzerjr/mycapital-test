@@ -109,9 +109,7 @@ export function Home() {
   return (
     <TouchableWithoutFeedback onPress={handleBlur}>
       <S.Container>
-        <S.ContainerTitle>
-          <S.Title>Cadastro de ação</S.Title>
-        </S.ContainerTitle>
+        <S.Title>Cadastro de ação</S.Title>
 
         <Input
           label="Nome da ação"

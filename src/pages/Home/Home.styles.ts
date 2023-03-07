@@ -11,13 +11,8 @@ export const Title = styled.Text`
   font-size: 24px;
   font-weight: bold;
   color: #FFF;
-`;
-
-export const ContainerTitle = styled.View`
-  width: 100%;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 10px;
+  text-align: center;
 `;
 
 export const ContainerInput = styled.View`

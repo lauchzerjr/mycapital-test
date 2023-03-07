@@ -13,10 +13,12 @@ export const Container = styled.View`
   background-color: #262626;
 `;
 
-export const Text = styled.Text`
+export const Title = styled.Text`
   font-size: 24px;
   font-weight: bold;
   color: #FFF;
+  margin-bottom: 10px;
+  text-align: center;
 `;
 
 export const FlatListStocks = styled(FlatList)<FlatListProps>`
