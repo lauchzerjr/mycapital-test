@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 const { Screen, Navigator } = createBottomTabNavigator();
 
@@ -40,11 +40,6 @@ export const TabRoutes = () => {
           tabBarLabel: "Pesquisa",
         }}
       />
-      {/* <Screen
-        name="sport"
-        component={Sport}
-        options={{ tabBarButton: () => null }}
-      /> */}
     </Navigator>
   );
 };
