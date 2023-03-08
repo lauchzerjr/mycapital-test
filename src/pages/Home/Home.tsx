@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import uuid from "react-native-uuid";
 import { useToast } from "native-base";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { Entypo } from "@expo/vector-icons";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTheme,
+} from "victory-native";
 
 import { DatePickerComponent } from "../../components/DatePicker/DatePicker";
 import { ButtonSubmit } from "../../components/ButtonSubmit/ButtonSubmit";
 import { Input } from "../../components/Input/Input";
 import * as S from "./Home.styles";
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { CardProps } from "../../components/Card/Card";
 
 export function Home() {
   const [idStock, setIdStock] = useState("");
@@ -15,6 +23,8 @@ export function Home() {
   const [priceStock, setPriceStock] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [fieldsFilled, setFieldsFilled] = useState(false);
+  const [data, setData] = useState([]);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const toast = useToast();
 
@@ -25,6 +35,7 @@ export function Home() {
   };
 
   async function handleSubmitStock() {
+    setIsSubmit(false);
     try {
       const id = uuid.v4();
 
@@ -82,8 +93,6 @@ export function Home() {
         bgColor: "green.500",
       });
     } catch (error) {
-      console.log("error", error);
-
       toast.show({
         title: "Algo deu errado, tente novamente mais tarde.",
         placement: "top",
@@ -96,15 +105,61 @@ export function Home() {
     setPriceStock("");
     setSelectedDate(undefined);
     handleBlur();
+    setIsSubmit(true);
   }
 
   function handleDateSelected(date: Date) {
     setSelectedDate(date);
   }
 
+  const getDateAndPrice = async () => {
+    const response = await getItem();
+
+    if (response) {
+      const data = JSON.parse(response);
+
+      const newData = data.map((item) => {
+        const price: number =
+          item.items.length === 1
+            ? parseFloat(
+                item.items[0].priceStock
+                  .replace("R$", "")
+                  .replace(/[^\d,]/g, "")
+                  .replace(",", ".")
+              ).toFixed(2)
+            : item.items
+                .reduce(
+                  (acc, obj) =>
+                    acc +
+                    parseFloat(
+                      obj.priceStock
+                        .replace("R$", "")
+                        .replace(/[^\d,]/g, "")
+                        .replace(",", ".")
+                    ),
+                  0
+                )
+                .toFixed(2);
+
+        const returnData = {
+          formattedDate: item.formattedDate,
+          priceStock: Number(price),
+        };
+
+        return returnData;
+      });
+
+      setData(newData);
+    }
+  };
+
   useEffect(() => {
     setFieldsFilled(!!idStock && !!nameStock && !!priceStock && !!selectedDate);
   }, [idStock, nameStock, priceStock, selectedDate]);
+
+  useEffect(() => {
+    getDateAndPrice();
+  }, [isSubmit]);
 
   return (
     <TouchableWithoutFeedback onPress={handleBlur}>
@@ -138,8 +193,79 @@ export function Home() {
         </S.ContainerInput>
 
         <DatePickerComponent onDateSelected={handleDateSelected} />
-
         <ButtonSubmit onPress={handleSubmitStock} disabled={!fieldsFilled} />
+
+        {data.length !== 0 && (
+          <>
+            <S.ScrollTitleContainer>
+              {data.length > 4 && (
+                <>
+                  <S.ScrollTitle>Arraste para o lado </S.ScrollTitle>
+                  <Entypo name="arrow-right" size={24} color="white" />
+                </>
+              )}
+            </S.ScrollTitleContainer>
+
+            <S.ScrollGraphContainer
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
+              <VictoryChart
+                theme={VictoryTheme.material}
+                width={data.length > 4 ? data.length * 80 : 350}
+                padding={{ bottom: 80, left: 50, right: 15 }}
+                height={350}
+                domainPadding={25}
+                style={{
+                  background: {
+                    width: "100%",
+                  },
+                }}
+              >
+                <VictoryAxis
+                  animate={{
+                    duration: 2000,
+                    easing: "bounce",
+                  }}
+                  theme={VictoryTheme.material}
+                  style={{
+                    tickLabels: { fill: "#FB6C34" },
+                    ticks: { stroke: "#FFF" },
+                  }}
+                />
+                <VictoryAxis
+                  animate={{
+                    duration: 2000,
+                    easing: "bounce",
+                  }}
+                  theme={VictoryTheme.material}
+                  dependentAxis
+                  style={{
+                    tickLabels: { fill: "#FB6C34" },
+                  }}
+                />
+                <VictoryBar
+                  data={data}
+                  x="formattedDate"
+                  y="priceStock"
+                  animate={{
+                    duration: 2000,
+                    onLoad: { duration: 1000 },
+                  }}
+                  barRatio={0.8}
+                  style={{
+                    data: {
+                      fill: "#fff",
+                      stroke: "#FB6C34",
+                      strokeWidth: 2,
+                      width: 30,
+                    },
+                  }}
+                />
+              </VictoryChart>
+            </S.ScrollGraphContainer>
+          </>
+        )}
       </S.Container>
     </TouchableWithoutFeedback>
   );

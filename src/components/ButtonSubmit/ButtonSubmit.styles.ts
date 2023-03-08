@@ -7,11 +7,7 @@ interface ButtonSubmitProps {
 }
 
 export const Container = styled.View`
-padding: 20px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  margin-top: 10px;
 `;
 
 export const ButtonSubmit = styled(TouchableOpacity)<ButtonSubmitProps>`

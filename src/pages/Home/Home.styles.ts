@@ -21,3 +21,21 @@ export const ContainerInput = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const ScrollGraphContainer = styled.ScrollView`
+  flex: 1;
+`;
+
+export const ScrollTitleContainer = styled.View`
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  height: 60px;
+`;
+
+export const ScrollTitle = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFF;
+  text-align: center;
+`;
