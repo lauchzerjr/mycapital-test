@@ -28,7 +28,7 @@ export function Home() {
 
   const toast = useToast();
 
-  const { getItem, setItem } = useAsyncStorage("@mycapitaltest:stocks");
+  const { getItem, setItem } = useAsyncStorage("@stocksapp:stocks");
 
   const handleBlur = () => {
     Keyboard.dismiss();

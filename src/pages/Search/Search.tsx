@@ -21,7 +21,7 @@ export function Search() {
     );
   }, [search, data]);
 
-  const { getItem, setItem } = useAsyncStorage("@mycapitaltest:stocks");
+  const { getItem, setItem } = useAsyncStorage("@stocksapp:stocks");
 
   async function handleFetchData() {
     const response = await getItem();
