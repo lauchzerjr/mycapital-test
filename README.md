@@ -23,7 +23,7 @@ Clone o projeto e rode com expo
 
 ```bash
   git clone branch_url
-  cd stockapp
+  cd stock-app
   npm install ou yarn install
   npx expo start
 ```
