@@ -5,7 +5,7 @@ export type Item = {
   id: string;
   idStock: string;
   nameStock: string;
-  priceStock: string;
+  priceStock: number;
 };
 
 export type CardProps = {
@@ -24,7 +24,7 @@ export function Card({ formattedDate, items }: CardProps) {
             <S.NameStockText>Nome: {item.nameStock}</S.NameStockText>
             <S.HStackContainer>
               <S.IdStockText>Código: {item.idStock}</S.IdStockText>
-              <S.PriceStockText>Valor: {item.priceStock}</S.PriceStockText>
+              <S.PriceStockText>Valor: {item.priceStock.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</S.PriceStockText>
             </S.HStackContainer>
           </S.ContainerStocks>
         ))}

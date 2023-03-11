@@ -49,7 +49,10 @@ export function Home() {
             id,
             idStock,
             nameStock,
-            priceStock,
+            priceStock: Number(priceStock
+              .replace("R$", "")
+              .replace(/[^\d,]/g, "")
+              .replace(",", ".")),
           },
         ],
       };
@@ -72,7 +75,10 @@ export function Home() {
               id,
               idStock,
               nameStock,
-              priceStock,
+              priceStock: Number(priceStock
+                .replace("R$", "")
+                .replace(/[^\d,]/g, "")
+                .replace(",", ".")),
             },
           ],
         };
@@ -121,25 +127,8 @@ export function Home() {
       const newData = data.map((item) => {
         const price: number =
           item.items.length === 1
-            ? parseFloat(
-                item.items[0].priceStock
-                  .replace("R$", "")
-                  .replace(/[^\d,]/g, "")
-                  .replace(",", ".")
-              ).toFixed(2)
-            : item.items
-                .reduce(
-                  (acc, obj) =>
-                    acc +
-                    parseFloat(
-                      obj.priceStock
-                        .replace("R$", "")
-                        .replace(/[^\d,]/g, "")
-                        .replace(",", ".")
-                    ),
-                  0
-                )
-                .toFixed(2);
+            ? item.items[0].priceStock
+            : item.items.reduce((acc, obj) => acc + obj.priceStock, 0);
 
         const returnData = {
           formattedDate: item.formattedDate,
