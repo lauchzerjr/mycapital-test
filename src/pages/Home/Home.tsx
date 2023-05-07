@@ -15,7 +15,6 @@ import { DatePickerComponent } from "../../components/DatePicker/DatePicker";
 import { ButtonSubmit } from "../../components/ButtonSubmit/ButtonSubmit";
 import { Input } from "../../components/Input/Input";
 import * as S from "./Home.styles";
-import { CardProps } from "../../components/Card/Card";
 
 export function Home() {
   const [idStock, setIdStock] = useState("");
